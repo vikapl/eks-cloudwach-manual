@@ -464,7 +464,7 @@ Resources:
               - LatestVersionNumber
           Overrides:
             - InstanceType: !Ref NodeInstanceType
-            - InstanceType: t3.medium
+            - InstanceType: t2.medium
             - InstanceType: t3a.medium
             - InstanceType: a1.large
         InstancesDistribution:

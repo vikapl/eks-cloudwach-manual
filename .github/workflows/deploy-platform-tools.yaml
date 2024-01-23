@@ -34,25 +34,6 @@ jobs:
           role-session-name: GitHubActionsRoleSession
           aws-region: ${{ env.AWS_REGION }}
 
-      # Official installation instructions from https://eksctl.io/installation/
-      - name: Install eksctl
-        run: |
-            ARCH=amd64
-            PLATFORM=$(uname -s)_$ARCH
-            curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-            
-            tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-            sudo mv /tmp/eksctl /usr/local/bin
-            eksctl version
-    
-      # Create EKS cluster with CloudFormation
-      # both AWSReservedSSO_Administrator-* role and role running this job should get full access to this EKS cluster
-      - name: Create EKS Cluster with CloudFormation
-        run: |
-            SSO_ADMIN_ROLE=$(aws iam list-roles --query "Roles[?starts_with(RoleName, 'AWSReservedSSO_Administrator')].Arn" --output text)
-            make cluster name=temporary-eks-cluster-${ENVIRONMENT_STAGE} version=1.28 role=$SSO_ADMIN_ROLE
-        working-directory: ./eks-cloudformation
-
       # Login to EKS, make sure to switch to the permanent cluster created with terraform once it's up
       - name: Login to EKS - update kubeconfig
         run: aws eks update-kubeconfig --name temporary-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
