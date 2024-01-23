@@ -77,7 +77,7 @@ iam:
 
 # Configures and deploys the worker nodes
 replacements="\
-s|IAM_ROLE_ARN|$(role)|g;\
+s|IAM_ROLE|$(role)|g;\
 s|ACCOUNT_NUMBER|$(account)|g;\
 s|NODE_INSTANCE_ROLE|$(NodeInstanceRole)|g;\
 "
