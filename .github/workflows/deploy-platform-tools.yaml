@@ -38,9 +38,6 @@ jobs:
       - name: Login to EKS - update kubeconfig
         run: aws eks update-kubeconfig --name temporary-eks-cluster-${ENVIRONMENT_STAGE} --region $AWS_REGION
 
-      - name: Test
-        run: kubectl -n kube-system get configmap aws-auth -o yaml
-
       # Add deployment steps for each tool below
       - name: Deploy ingress-nginx controller
         run: kubectl apply -f ingress-nginx/deploy.yaml
