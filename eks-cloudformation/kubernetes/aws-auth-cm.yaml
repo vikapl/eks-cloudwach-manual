@@ -12,7 +12,7 @@ data:
         - system:nodes
         # next line allows deployments (jenkins)
         - system:masters
-    - rolearn: IAM_ROLE_ARN
+    - rolearn: arn:aws:iam::ACCOUNT_NUMBER:role/IAM_ROLE
       username: devops-users
       groups:
         - system:masters

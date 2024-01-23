@@ -23,9 +23,9 @@
 ## Run
   1. Edit parameters on run:
       - `version`: to set eks cluster version.
-      - `role`: to set iam role for eks access. Default value is `EKS_ReadOnlyAccess_Role`, this role already exists in `401413892014` account
+      - `role`: to set iam role for eks access.
   2. Run:
       ~~~bash
-      make cluster version=1.28 role=EXAMPLE_IAM_ROLE_ARN
+      make cluster version=1.28 role=EXAMPLE_IAM_ROLE
       make cluster version=1.28 role="arn:aws:iam::036692858685:role/aws-reserved/sso.amazonaws.com/us-east-2/AWSReservedSSO_Administrator_0238c8388aaa3bbe"
       ~~~

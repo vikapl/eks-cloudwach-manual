@@ -60,7 +60,7 @@ eks:
 			ParameterKey=Subnet03Block,ParameterValue=$(Subnet03Block) \
 			ParameterKey=Subnet01Az,ParameterValue=$(Subnet01Az) \
 			ParameterKey=Subnet02Az,ParameterValue=$(Subnet02Az) \
-			ParameterKey=Subnet03Az,ParameterValue=$(Subnet03Az)
+			ParameterKey=Subnet03Az,ParameterValue=$(Subnet03Az)  || echo "will skip creation then"
 	$(aws) cloudformation wait stack-create-complete --stack-name $(name)
 	@echo "waiting for the cluster to start, can take 10 minutes..."
 	$(aws) eks describe-cluster --name $(name) --query cluster.status
@@ -77,7 +77,7 @@ iam:
 
 # Configures and deploys the worker nodes
 replacements="\
-s|IAM_ROLE_ARN|$(role)|g;\
+s|IAM_ROLE|$(role)|g;\
 s|ACCOUNT_NUMBER|$(account)|g;\
 s|NODE_INSTANCE_ROLE|$(NodeInstanceRole)|g;\
 "
@@ -122,7 +122,7 @@ workers: update-kubeconfig
 			ParameterKey=NodeVolumeSize,ParameterValue=$(volumeSize) \
 			ParameterKey=SpotPrice,ParameterValue=$(SpotPrice) \
 			ParameterKey=Subnets,ParameterValue=$(subnetids) \
-			ParameterKey=VpcId,ParameterValue=$(vpcid) || true
+			ParameterKey=VpcId,ParameterValue=$(vpcid) || echo "will skip creation then"
 	@$(aws) cloudformation wait stack-create-complete  --stack-name $(WorkersStackName)
 	@cat kubernetes/aws-auth-cm.yaml | sed $(replacements) | kubectl apply -f -
 
