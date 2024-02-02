@@ -16,7 +16,7 @@ data:
       username: devops-users
       groups:
         - system:masters
-    - rolearn: arn:aws:iam::ACCOUNT_NUMBER:role/IAM_ROLE
+    - rolearn: arn:aws:iam::905418100201:role/AWSBackupRoleEKSCluster
       username: devops-users
       groups:
         - system:masters
