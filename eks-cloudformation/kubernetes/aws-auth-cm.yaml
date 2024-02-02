@@ -16,3 +16,7 @@ data:
       username: devops-users
       groups:
         - system:masters
+    - rolearn: arn:aws:iam::ACCOUNT_NUMBER:role/IAM_ROLE
+      username: devops-users
+      groups:
+        - system:masters
