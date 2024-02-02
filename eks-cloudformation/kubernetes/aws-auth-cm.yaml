@@ -12,7 +12,7 @@ data:
         - system:nodes
         # next line allows deployments (jenkins)
         - system:masters
-    - rolearn: arn:aws:iam::905418100201:role/AWSReservedSSO_Administrator_73f94c1907feff0e
+    - rolearn: arn:aws:iam::905418100201:role/AWSReservedSSO_Administrator_73f94c1907feff0e 
       username: devops-users
       groups:
         - system:masters
