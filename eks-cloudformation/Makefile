@@ -12,7 +12,7 @@ ami = $(shell aws ssm get-parameter --name /aws/service/eks/optimized-ami/$(vers
 
 default: help
 
-# Lists the available targets
+# Lists the available targets (dev)
 help:
 	@make -qp | awk -F':' '/^[a-z0-9][^$$#\/\t=]*:([^=]|$$)/ {split($$1,A,/ /);for(i in A)print A[i]}' | sort
 
