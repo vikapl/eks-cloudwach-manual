@@ -28,7 +28,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::302724950430:role/vika-eks 
+          role-to-assume: arn:aws:iam::302724950430:role/admin
           role-session-name: GitHubActionsRoleSession
           aws-region: ${{ env.AWS_REGION }}
 
