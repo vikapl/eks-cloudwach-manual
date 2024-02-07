@@ -4,16 +4,9 @@ metadata:
   name: aws-auth
   namespace: kube-system
 data:
-  mapRoles: |
-    - rolearn: NODE_INSTANCE_ROLE
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
-        # next line allows deployments (jenkins)
-        - system:masters
-    - rolearn: arn:aws:iam::302724950430:role/admin
-      username: admin
-      groups:
-        - system:masters
-    
+  aws-user-info.json: |
+    {
+      "UserId": "AIDAUM66QFGPCUVC3WKBU",
+      "Account": "302724950430",
+      "Arn": "arn:aws:iam::302724950430:user/admin"
+    }
