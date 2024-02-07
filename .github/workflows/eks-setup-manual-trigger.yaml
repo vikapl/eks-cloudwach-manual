@@ -36,7 +36,7 @@ jobs:
       - name: Assume IAM Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: admin
+          role-to-assume: vika-eks
           role-session-name: GitHubActionsRoleSession
           aws-region: ${{ env.AWS_REGION }}
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Install eksctl
         run: |
-          ARCH=amd64
+          ARCH=amd64 
           PLATFORM=$(uname -s)_$ARCH
           curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
           tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
