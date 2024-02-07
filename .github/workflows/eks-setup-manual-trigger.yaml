@@ -33,19 +33,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Configure AWS credentials
+      - name: Assume IAM Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.IAM_ROLE }}
+          role-to-assume: admin
           role-session-name: GitHubActionsRoleSession
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Debug AWS credentials
         run: |
-            echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-            echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+          echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+          echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
 
-      # Official installation instructions from https://eksctl.io/installation/
       - name: Install eksctl
         run: |
           ARCH=amd64
@@ -55,19 +54,15 @@ jobs:
           sudo mv /tmp/eksctl /usr/local/bin
           eksctl version
 
-      # Create EKS cluster with CloudFormation
-      # both AWSReservedSSO_Administrator-* role and an IAM role running this job should get full access to this EKS cluster
       - name: Create EKS Cluster with CloudFormation
         run: |
           SSO_ADMIN_ROLE=$(aws iam list-roles --query "Roles[?starts_with(RoleName, 'AWSReservedSSO_Administrator')].RoleName" --output text)
           make cluster name=temporary-eks-cluster-${{ github.event.inputs.environment_stage }} version=1.28 role=$SSO_ADMIN_ROLE
         working-directory: ./eks-cloudformation
 
-      # Login to EKS
       - name: Login to EKS - update kubeconfig
         run: aws eks update-kubeconfig --name temporary-eks-cluster-${{ github.event.inputs.environment_stage }} --region $AWS_REGION
 
-      # Update aws-auth ConfigMap to add IAM user
       - name: Update aws-auth ConfigMap
         run: |
           kubectl -n kube-system edit configmap/aws-auth
