@@ -4,7 +4,6 @@ name: 'Workflow - Deploy Platform Tools'
 on:
   push:
     branches:
-      - future/**
       - main
 
 permissions:
