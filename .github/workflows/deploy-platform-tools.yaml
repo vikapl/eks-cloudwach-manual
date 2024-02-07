@@ -1,32 +1,38 @@
-
+# This worflow is primarily for platform/devops tools that need to be deployed into K8s cluster
+# or tools that don't belong to Terraform
 name: 'Workflow - Deploy Platform Tools'
 
 on:
   push:
     branches:
+      - feature/**
       - main
 
 permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: "us-east-1"
+  ENVIRONMENT_STAGE: "dev"
+
 jobs:
   deploy-platform-tools:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    environment: dev
+
     steps:
-      - name: Debug AWS credentials
-        run: |
-          echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-          echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          role-to-assume: ${{ vars.IAM_ROLE }}
+          role-session-name: GitHubActionsRoleSession
+          aws-region: ${{ env.AWS_REGION }}
 
       # Login to EKS, make sure to switch to the permanent cluster created with terraform once it's up
       - name: Login to EKS - update kubeconfig
@@ -53,4 +59,3 @@ jobs:
       - name: Finalize Deployment
         run: |
             echo "Final deployment steps and cleanup"
-
