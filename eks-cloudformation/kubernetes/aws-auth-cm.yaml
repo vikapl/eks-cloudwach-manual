@@ -12,7 +12,7 @@ data:
         - system:nodes
         # next line allows deployments (jenkins)
         - system:masters
-    - rolearn: arn:aws:iam::302724950430:role/admin
+    - rolearn: arn:aws:iam::302724950430:user/admin
       username: admin
       groups:
         - system:masters
