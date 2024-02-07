@@ -4,9 +4,6 @@ metadata:
   name: aws-auth
   namespace: kube-system
 data:
-  aws-user-info.json: |
-    {
-      "UserId": "AIDAUM66QFGPCUVC3WKBU",
-      "Account": "302724950430",
-      "Arn": "arn:aws:iam::302724950430:user/admin"
-    }
+  mapUsers: |
+    - userarn: arn:aws:iam::302724950430:user/admin
+      username: admin
