@@ -12,7 +12,7 @@ data:
         - system:nodes
         # next line allows deployments (jenkins)
         - system:masters
-    - rolearn: arn:aws:iam::302724950430:user/admin
+    - rolearn: arn:aws:iam::302724950430:role/vika-eks
       username: admin
       groups:
         - system:masters
