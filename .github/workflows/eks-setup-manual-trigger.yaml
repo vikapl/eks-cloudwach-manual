@@ -1,4 +1,3 @@
-# Manually triggered workflow
 name: 'EKS Cluster Setup with CloudFormation'
 
 on:
@@ -55,6 +54,7 @@ jobs:
       - name: Login to EKS - update kubeconfig
         run: aws eks update-kubeconfig --name temporary-eks-cluster-${{ github.event.inputs.environment_stage }} --region $AWS_REGION
 
-      # Display aws-auth configmap
-      - name: View the new IAM to Kubernetes RBAC mapping
-        run: kubectl -n kube-system get configmap aws-auth -o yaml
+      # Update aws-auth ConfigMap to add IAM user
+      - name: Update aws-auth ConfigMap
+        run: |
+          kubectl -n kube-system edit configmap/aws-auth
